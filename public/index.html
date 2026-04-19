@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<!-- AI GENERATED SLOP, IGNORE IT -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sv-ADA Outreach</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111;
+      --surface2: #181818;
+      --border: #222;
+      --border2: #2e2e2e;
+      --accent: #c8ff00;
+      --accent2: #9abf00;
+      --text: #ddd;
+      --text2: #888;
+      --text3: #444;
+      --red: #ff3b3b;
+      --green: #00e676;
+      --blue: #448aff;
+      --orange: #ff9100;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+
+    header {
+      height: 48px; min-height: 48px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 20px; gap: 16px;
+    }
+    .logo { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: var(--accent); letter-spacing: .15em; }
+    .logo span { color: var(--text3); font-weight: 400; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text3); }
+    .status-dot.running { background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: pulse 1.2s ease-in-out infinite; }
+    .status-dot.done { background: var(--green); }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+    .status-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text2); }
+
+    .workspace { flex: 1; display: grid; grid-template-columns: 340px 1fr; overflow: hidden; }
+
+    .agent-panel { border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+    .panel-section { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+    .section-title { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; }
+
+    .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .config-item { background: var(--surface2); border: 1px solid var(--border); padding: 8px 10px; }
+    .config-key { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--text3); margin-bottom: 3px; }
+    .config-val { font-size: 11px; color: var(--text); line-height: 1.4; }
+
+    .run-btn {
+      width: 100%; padding: 11px; border: none; cursor: pointer;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+      background: var(--accent); color: #000; transition: background .15s, opacity .15s;
+    }
+    .run-btn:hover { background: var(--accent2); }
+    .run-btn:disabled { opacity: .4; cursor: not-allowed; background: var(--accent); }
+
+    .log-wrap { flex: 1; overflow-y: auto; padding: 12px 16px; display: flex; flex-direction: column; gap: 2px; }
+    .log-line { font-family: 'IBM Plex Mono', monospace; font-size: 10px; line-height: 1.6; color: var(--text2); animation: fadeIn .2s ease; }
+    .log-line.highlight { color: var(--accent); }
+    .log-line.error { color: var(--red); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
+    .log-empty { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text3); padding: 12px 0; }
+
+    .review-panel { display: flex; flex-direction: column; overflow: hidden; position: relative; }
+    .review-tabs { display: flex; border-bottom: 1px solid var(--border); min-height: 38px; }
+    .rtab { padding: 0 18px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--text3); cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; transition: color .1s, border-color .1s; white-space: nowrap; }
+    .rtab:hover { color: var(--text2); }
+    .rtab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .rtab .badge-count { display: inline-block; margin-left: 6px; background: var(--surface2); border: 1px solid var(--border2); padding: 1px 5px; font-size: 9px; border-radius: 2px; }
+    .rtab.active .badge-count { background: rgba(200,255,0,.1); border-color: rgba(200,255,0,.3); color: var(--accent); }
+
+    .company-list { flex: 1; overflow-y: auto; }
+    .company-item { display: flex; align-items: stretch; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .1s; }
+    .company-item:hover { background: var(--surface); }
+    .company-item.selected { background: rgba(200,255,0,.03); border-left: 2px solid var(--accent); }
+    .company-item-inner { flex: 1; padding: 14px 18px; min-width: 0; }
+    .ci-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .ci-name { font-weight: 500; font-size: 13px; }
+    .ci-desc { font-size: 11px; color: var(--text2); line-height: 1.5; margin-bottom: 6px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .ci-meta { display: flex; gap: 8px; align-items: center; }
+    .ci-email { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text3); }
+
+    .status-pill { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 2px 7px; border: 1px solid; }
+    .sp-draft    { color: var(--orange); border-color: rgba(255,145,0,.25); }
+    .sp-approved { color: var(--blue);   border-color: rgba(68,138,255,.25); }
+    .sp-sent     { color: var(--green);  border-color: rgba(0,230,118,.25); }
+    .sp-rejected { color: var(--text3);  border-color: var(--border); }
+    .sp-failed   { color: var(--red);    border-color: rgba(255,59,59,.25); }
+    .sp-pending  { color: var(--text3);  border-color: var(--border); }
+
+    .detail-drawer { position: absolute; inset: 0; background: var(--bg); border-left: 1px solid var(--border2); display: flex; flex-direction: column; transform: translateX(100%); transition: transform .2s ease; z-index: 50; }
+    .detail-drawer.open { transform: translateX(0); }
+    .drawer-header { padding: 18px 24px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .dh-left { flex: 1; min-width: 0; }
+    .dh-name { font-size: 17px; font-weight: 500; margin-bottom: 3px; }
+    .dh-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text2); display: flex; gap: 12px; flex-wrap: wrap; }
+    .close-btn { background: none; border: 1px solid var(--border2); color: var(--text2); padding: 5px 9px; cursor: pointer; font-size: 13px; transition: all .1s; }
+    .close-btn:hover { color: var(--text); }
+    .drawer-body { flex: 1; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; }
+    .drawer-col { padding: 20px 24px; display: flex; flex-direction: column; gap: 14px; }
+    .drawer-col:first-child { border-right: 1px solid var(--border); }
+    .field-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--text3); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 5px; }
+    .field-text { font-size: 12px; line-height: 1.6; color: var(--text); background: var(--surface); border: 1px solid var(--border); padding: 10px 12px; }
+    .field-email { font-family: 'IBM Plex Mono', monospace; font-size: 11px; }
+    .edit-input { width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 9px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; outline: none; transition: border-color .15s; }
+    .edit-input:focus { border-color: var(--border2); }
+    textarea.edit-input { resize: vertical; min-height: 220px; line-height: 1.65; font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; }
+    .drawer-footer { padding: 14px 24px; border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: center; }
+
+    .btn { padding: 9px 16px; border: 1px solid var(--border2); background: transparent; color: var(--text); font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: .06em; cursor: pointer; transition: all .15s; text-transform: uppercase; }
+    .btn:hover { border-color: var(--text2); }
+    .btn-approve { color: var(--green); border-color: rgba(0,230,118,.3); }
+    .btn-approve:hover { background: rgba(0,230,118,.06); border-color: var(--green); }
+    .btn-send { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
+    .btn-send:hover { background: var(--accent2); border-color: var(--accent2); }
+    .btn-reject { color: var(--red); border-color: rgba(255,59,59,.2); }
+    .btn-reject:hover { background: rgba(255,59,59,.05); border-color: var(--red); }
+    .btn:disabled { opacity: .35; cursor: not-allowed; }
+    .spacer { flex: 1; }
+
+    .empty { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; gap: 8px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 40px; text-align: center; }
+    .empty-icon { font-size: 28px; margin-bottom: 4px; }
+
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(60px); background: var(--surface); border: 1px solid var(--border2); padding: 9px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; transition: transform .2s; z-index: 200; pointer-events: none; }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.ok  { color: var(--green); border-color: rgba(0,230,118,.3); }
+    .toast.err { color: var(--red);   border-color: rgba(255,59,59,.3); }
+
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-thumb { background: var(--border2); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo"> OutReach <span>// AI-Agent </span></div>
+  <div class="header-right">
+    <div class="status-dot" id="statusDot"></div>
+    <div class="status-label" id="statusLabel">idle</div>
+    <div class="status-label" style="color:var(--border2)">|</div>
+    <div class="status-label" id="statsLabel">0 drafts · 0 sent</div>
+  </div>
+</header>
+
+<div class="workspace">
+
+  <!-- Left: Agent panel -->
+  <div class="agent-panel">
+    <div class="panel-section">
+      <div class="section-title">CONFIG - EDIT DATA/CONFIG.YAML</div>
+      <div class="config-grid">
+        <div class="config-item"><div class="config-key">Location</div><div class="config-val" id="cfgLocation">—</div></div>
+        <div class="config-item"><div class="config-key">Radius</div><div class="config-val" id="cfgRadius">—</div></div>
+        <div class="config-item" style="grid-column:span 2"><div class="config-key">Industries</div><div class="config-val" id="cfgIndustry">—</div></div>
+        <div class="config-item"><div class="config-key">Min Companies</div><div class="config-val" id="cfgMin">—</div></div>
+        <div class="config-item"><div class="config-key">Language</div><div class="config-val" id="cfgLang">—</div></div>
+      </div>
+    </div>
+    <div class="panel-section" style="padding:12px 16px">
+      <button class="run-btn" id="runBtn"> Start Agent</button>
+    </div>
+    <div class="panel-section" style="padding:10px 16px 6px">
+      <div class="section-title">Agent Log</div>
+    </div>
+    <div class="log-wrap" id="logWrap">
+      <div class="log-empty">Agent hasn't run yet.</div>
+    </div>
+  </div>
+
+  <!-- Right: Review panel -->
+  <div class="review-panel">
+    <div class="review-tabs">
+      <button class="rtab active" data-filter="draft">Needs review <span class="badge-count" id="cntDraft">0</span></button>
+      <button class="rtab" data-filter="approved">Approved <span class="badge-count" id="cntApproved">0</span></button>
+      <button class="rtab" data-filter="sent">Sent <span class="badge-count" id="cntSent">0</span></button>
+      <button class="rtab" data-filter="all">All <span class="badge-count" id="cntAll">0</span></button>
+    </div>
+    <div class="company-list" id="companyList"></div>
+
+    <!-- Detail drawer -->
+    <div class="detail-drawer" id="detailDrawer">
+      <div class="drawer-header">
+        <div class="dh-left">
+          <div class="dh-name" id="ddName">—</div>
+          <div class="dh-meta">
+            <span id="ddDomain">—</span>
+            <span id="ddIndustry">—</span>
+            <span id="ddLocation">—</span>
+          </div>
+        </div>
+        <button class="close-btn" id="drawerCloseBtn">✕</button>
+      </div>
+
+      <div class="drawer-body">
+        <div class="drawer-col">
+          <div>
+            <div class="field-label">What they do</div>
+            <div class="field-text" id="ddDesc">—</div>
+          </div>
+          <div>
+            <div class="field-label">Contact email</div>
+            <div class="field-text field-email" id="ddEmail">—</div>
+          </div>
+          <div>
+            <div class="field-label">Override email (if wrong or non-existent)</div>
+            <input class="edit-input" id="ddEmailOverride" type="text" placeholder="leave blank to keep found email">
+          </div>
+        </div>
+
+        <div class="drawer-col">
+          <div>
+            <div class="field-label">Subject</div>
+            <input class="edit-input" id="ddSubject" type="text">
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column">
+            <div class="field-label">Email body</div>
+            <textarea class="edit-input" id="ddBody" style="flex:1;min-height:260px"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="drawer-footer" id="detailFooter">
+        <button class="btn btn-reject" id="btnReject">x Reject</button>
+        <div class="spacer"></div>
+        <button class="btn" id="btnSaveDraft">save edits</button>
+        <button class="btn btn-approve" id="btnApprove">+ Approve</button>
+        <button class="btn btn-send" id="btnSend" style="display:none">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module" src="/js/app.js"></script>
+</body>
+</html>
