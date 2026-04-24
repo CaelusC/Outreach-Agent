@@ -1,6 +1,6 @@
 const OPENROUTER_BASE = 'https://openrouter.ai/api/v1/chat/completions'
-const MODEL = 'openai/gpt-oss-120b:free'
-const TIMEOUT_MS = 300000 // 5 minutes — background process, no rush
+const MODEL = 'openai/gpt-oss-120b:free' //Using a free open source model (Can be changed to any other LLM, even a local one, by just changing the endpoint and response processing in this class)
+const TIMEOUT_MS = 300000 // 5 min, to allow for long response just in case the LLM is slow
 
 export class LLMClient {
   async call(messages, systemPrompt = null, maxTokens = 1024, label = 'llm') {

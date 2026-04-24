@@ -1,3 +1,4 @@
+//EmailFinder uses an LLM (can be any), with prompt injection to find the public contact email for a given company domain. Return clean email or null.
 export class EmailFinder {
   #llm
 
