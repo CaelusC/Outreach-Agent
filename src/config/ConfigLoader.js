@@ -47,8 +47,6 @@ export class ConfigLoader {
     return {
       purpose:            getTop('purpose') || 'outreach',
       custom_goal:        getTop('custom_goal') || null,
-      footer:             getBlock('footer') || null,
-      attachments_folder: get('attachments_folder') || null,
       
       search: {
         location:       get('location'),

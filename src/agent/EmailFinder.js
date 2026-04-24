@@ -7,8 +7,8 @@ export class EmailFinder {
   }
 
   async find(domain, companyName) {
-    const prompt = `What is the public contact email address for ${companyName} (${domain})?
-Return the email address only. If unknown, return null.`
+    const prompt = `Search up what is the public contact email address for ${companyName} (${domain})?
+Return only the contact email address. No explanation. No sentences. Email only. If unknown, return null.`
 
     const raw = await this.#llm.call(
       [{ role: 'user', content: prompt }],
@@ -18,7 +18,7 @@ Return the email address only. If unknown, return null.`
     )
 
     const clean = raw.trim()
-    if (clean && clean !== 'null' && clean.includes('@') && clean.includes('.')) {
+    if (clean && clean !== 'null' && /^[^\s]+@[^\s]+\.[^\s]+$/.test(clean)) {
       return clean.toLowerCase()
     }
 

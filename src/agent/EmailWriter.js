@@ -31,7 +31,8 @@ Wants: ${about.looking_for.join(' | ')}
 
 Style rules: ${email_style.tone}. Max ${email_style.max_words} words. Language: ${email_style.language}. Never use: ${email_style.avoid.join(', ')}. No fluff opener. One clear CTA. Reference what the company specifically does and use it.
 ${footer ? `\nAppend this footer exactly as-is at the end of every email body:\n${footer}` : ''}
-Output: {"subject":"...","body":"..."} JSON only, no markdown.`
+Output JSON only: {"subject":"write subject here","body":"write full email body here"}
+No placeholders. No ellipsis. Write the actual content.`
 
     console.debug(`[EmailWriter] system prompt built, purpose=${purpose} chars=${prompt.length}`)
     return prompt
