@@ -57,11 +57,10 @@ export class ConfigLoader {
         min_companies:  parseInt(get('min_companies')) || 1,
         exclude_domains: getList('exclude_domains'),
       },
-      association: {
-        name:          get('name') || '',
-        university:    get('university'),
-        program:       get('program'),
-        member_count:  get('member_count'),
+      about: {
+        organisation:  get('organisation') || '',
+        context:       get('context') || '',
+        background:    getList('background'),
         what_we_offer: getList('what_we_offer'),
         looking_for:   getList('looking_for'),
       },
