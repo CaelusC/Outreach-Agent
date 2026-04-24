@@ -58,7 +58,6 @@ PORT=3000    #Don't change if you don't know why
 **4. All prefrences and Info put in here**
 
 ```bash
-mkdir data
 nano data/config.yaml
 ```
 

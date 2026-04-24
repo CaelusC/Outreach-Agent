@@ -22,6 +22,7 @@ export class AgentPanel {
   async #loadConfig() {
     try {
       const cfg = await api('/api/config')
+      document.getElementById('cfgPurpose').textContent = cfg.purpose || '—'
       document.getElementById('cfgLocation').textContent = cfg.search?.location || '—'
       document.getElementById('cfgRadius').textContent = cfg.search?.radius_km ? cfg.search.radius_km + ' km' : '—'
       document.getElementById('cfgIndustry').textContent = cfg.search?.industry_focus || '—'

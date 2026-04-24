@@ -21,8 +21,6 @@ export class LLMClient {
       headers: {
         'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
         'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://sv-ada.nl',
-        'X-Title': 'sv-ADA Outreach',
       },
       body: JSON.stringify(body),
       signal: AbortSignal.timeout(TIMEOUT_MS),

@@ -1,0 +1,75 @@
+# ─────────────────────────────────────────────────────────────────
+# Outreach Agent Config File
+# Please fill in any Data that is dummy or missing
+# ───────────────────────────────────────────────────────────────── 
+
+# Options: outreach | internship | job_application | custom
+# If set to "custom", fill in custom_goal below.
+purpose: outreach
+custom_goal: ~ # e.g. "invite companies to sponsor us"
+
+search:
+  location: "Paris, France" # (city, country)
+  radius_km: 50 # Radius of company search
+  industry_focus: "software, IT consultancy, hardware, SaaS, cybersecurity" # what companies should the ai look for
+  min_companies: 15 # MAX(15). Recommendation, keep at 1 or 2 emails at first, to verify if the AI has written the way you wish. Only when first emails are good, up the count!
+  exclude_domains:
+    - example.com   # add any domains to skip (e.g. amazon.com, facebook.com they are evil)
+
+sender:
+  name: "YOUR NAME"
+  role: "YOUR TITLE" #(e.g. software developer, artist, chairman, CEO)
+  email: "your@email.com"
+  phone: ""               # optional, leave empty to omit
+
+# Used by the agent to introduce you in the email.
+# Adapt these fields to match your purpose.
+# What we offer can be changed to what experience/skills you have
+# What looking for can be changed to what you would like to receive from the company (e.g. internship, workplace, new skills)
+about:
+  organisation: "name" #if individual can repeat your name
+  context: "We are such a nice community of people we love sharing"
+  background:
+    - "2000 active participants"
+    - "Organises workshops, career events, and networking evenings"
+    - "Connected to the regional beauty scene"
+  what_we_offer:
+    - "Love"
+    - "Access"
+    - "Slot"
+    - "Presence"
+  looking_for:
+    - "Collaborations"
+    - "Sponsorships (financial)"
+    - "Mentorship"
+
+email_style:
+  tone: "professional but warm and human. written by a student who knows what they want, not a cold corporate marketer. Short sentences. No fluff."
+  max_words: 180
+  language: "English"     # or Dutch: "Nederlands"
+  avoid: # add more details of how you wouldn't like your email to be written like
+    - "I hope this email finds you well"
+    - "synergy"
+    - "exciting opportunity"
+    - "reach out"
+    - "touch base"
+    - "leverage"
+    - "passionate"
+    - "innovative"
+    - "game-changer"
+    - "mutually beneficial"
+
+
+# Appended to the bottom of every email. Good for signatures,
+# social links, or legal disclaimers. Leave blank to disable.
+footer: |
+  --
+  YOUR NAME
+  SOME TITLE
+  your@email.com
+  linkofyourwebsite.com
+
+# Path to a folder. Every file in it gets attached to each email.
+# Total attachment size must stay under 10MB or files are skipped.
+# Leave blank to send without attachments.
+attachments_folder: "data"   # default location is data folder

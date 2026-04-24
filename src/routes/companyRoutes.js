@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { CompanyRepository } from '../db/CompanyRepository.js'
+import { ConfigLoader } from '../config/ConfigLoader.js'
 
 export function companyRoutes(mailer) {
   const router = Router()
@@ -39,7 +40,13 @@ export function companyRoutes(mailer) {
     if (!company.email_found) return res.status(400).json({ error: 'No email address' })
 
     try {
-      await mailer.send({ to: company.email_found, subject: company.subject, body: company.body })
+      const config = ConfigLoader.load()
+      await mailer.send({
+        to: company.email_found,
+        subject: company.subject,
+        body: company.body,
+        attachmentsFolder: config.attachments_folder || null,
+      })
       CompanyRepository.markSent(company.id)
       res.json({ ok: true })
     } catch (e) {
