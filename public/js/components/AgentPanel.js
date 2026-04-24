@@ -21,7 +21,7 @@ export class AgentPanel {
   //loads the current agent configuration and updates the UI
   async #loadConfig() {
     try {
-      const cfg = await api('/api/config')
+      const cfg = await api('/api/agent/config')
       document.getElementById('cfgPurpose').textContent = cfg.purpose || '—'
       document.getElementById('cfgLocation').textContent = cfg.search?.location || '—'
       document.getElementById('cfgRadius').textContent = cfg.search?.radius_km ? cfg.search.radius_km + ' km' : '—'
